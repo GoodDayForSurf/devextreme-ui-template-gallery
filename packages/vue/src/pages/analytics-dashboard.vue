@@ -9,10 +9,23 @@
       </toolbar-analytics>
 
       <div class="tiles">
-        <opportunities-ticker :data="opportunities" />
-        <revenue-total-ticker :data="sales" />
-        <conversion-ticker />
-        <leads-ticker />
+        <opportunities-ticker
+          :data="opportunities"
+          :icon="'datatrending'"
+        />
+        <revenue-total-ticker
+          :data="sales"
+          icon="dataarea"
+          :is-positive="false"
+        />
+        <conversion-ticker
+          icon="datausage"
+          tone="warning"
+        />
+        <leads-ticker
+          icon="datapie"
+          tone="info"
+        />
       </div>
 
       <div class="cards">
@@ -114,13 +127,25 @@ const tabChange = ([startDate, endDate]: string[]) => {
   }
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 1400px) {
   .view-wrapper {
     .tiles {
       grid-template-columns: repeat(2, calc(50% - 10px));
     }
+  }
+}
 
+@media only screen and (max-width: 900px) {
+  .view-wrapper {
     .cards {
+      grid-template-columns: repeat(1, 100%);
+    }
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .view-wrapper {
+    .tiles {
       grid-template-columns: repeat(1, 100%);
     }
   }
@@ -128,7 +153,7 @@ const tabChange = ([startDate, endDate]: string[]) => {
 
 @media only screen and (max-width: 400px) {
   .view-wrapper {
-    .tiles, .cards {
+    .cards {
       grid-template-columns: repeat(1, 100%);
     }
   }
