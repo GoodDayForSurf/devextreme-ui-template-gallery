@@ -175,6 +175,6 @@ jobs:
         with:
           clean: false
           branch: gh-pages
-          folder: devextreme-ui-template-gallery-dev
+          folder: devextreme-ui-template-gallery
           target-folder: .
 
