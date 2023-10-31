@@ -11,7 +11,7 @@ jobs:
     steps:
       #Build Devextreme latest
       - name: Checkout Devextreme
-        run: git clone https://github.com/DevExpress/DevExtreme.git devextreme
+        run: git clone -b 23_2_add_4_icons https://github.com/GoodDayForSurf/DevExtreme.git devextreme
 
       - name: Use Node.js 18
         uses: actions/setup-node@v3
@@ -175,6 +175,6 @@ jobs:
         with:
           clean: false
           branch: gh-pages
-          folder: devextreme-ui-template-gallery
+          folder: devextreme-ui-template-gallery-dev
           target-folder: .
 
