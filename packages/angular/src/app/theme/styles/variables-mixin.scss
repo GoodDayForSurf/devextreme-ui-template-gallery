@@ -10,6 +10,7 @@ $theme-type: 'material';
 @use "/node_modules/devextreme/scss/widgets/material/toolbar/sizes" as toolbar_sizes;
 @use "/node_modules/devextreme/scss/widgets/material/list/sizes" as *;
 @use "/node_modules/devextreme/scss/widgets/material/button/sizes" as *;
+@use "theme-special" as * with ($theme: "material");
 
 @forward "/node_modules/devextreme/scss/widgets/material/colors";
 @forward "/node_modules/devextreme/scss/widgets/material/textEditor/colors";
@@ -17,11 +18,10 @@ $theme-type: 'material';
 @use "sass:math";
 @use "sass:color";
 
-/* $base-neutral-background2: rgb(250, 250, 250);
+$base-neutral-background2: rgb(250, 250, 250);
 $base-neutral-background1: rgb(255, 255, 255);
 $base-neutral-background3-hover: rgb(235, 235, 235);
 $base-bg-selected: rgb(224, 224, 224);
-*/
 
 :root {
   --dark-warning-color: #{darken(adjust-hue($base-warning, -12), 3.73)};
@@ -48,6 +48,10 @@ $base-bg-selected: rgb(224, 224, 224);
   --base-bg-selected: #{$base-bg-selected};
   --border-color: #{$base-border-color};
   --accent-color: #{$base-accent};
+  --success-color: #{$base-success};
+  --info-color: #{$base-accent};
+  --warning-color: #{$base-warning};
+  --error-color: #{$base-danger};
   --base-text-color: #{$base-text-color};
   --base-focus-color: #{$base-focus-color};
   --background-gray-color: #{color.change($base-text-color, $alpha: 0.04)};
