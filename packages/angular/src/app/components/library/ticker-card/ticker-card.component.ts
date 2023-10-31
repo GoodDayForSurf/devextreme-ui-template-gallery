@@ -25,7 +25,7 @@ export class TickerCardComponent {
 
   @Input() icon: string;
 
-  @Input() tone: 'warning' | 'info' = 'info';
+  @Input() tone?: 'warning' | 'info';
 
   @Input() contentClass: string | null = null;
 
