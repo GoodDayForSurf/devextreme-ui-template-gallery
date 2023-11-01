@@ -7,5 +7,14 @@ $theme: null !default;
   @if $theme == fluent {
     --icon-dark-warning-color: var(--dark-warning-color);
     --card-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.04);
+
+    .dxf-legend,
+    .dxc-legend,
+    .dxc-arg-elements,
+    .dxc-val-elements {
+      text {
+        fill: rgb(118, 118, 118) !important;
+      }
+    }
   }
 }
