@@ -1,0 +1,38 @@
+{
+  "files": {
+    "main.css": "./static/css/main.7b835a70.css",
+    "main.js": "./static/js/main.91ef8ff1.js",
+    "static/js/498.533026cc.chunk.js": "./static/js/498.533026cc.chunk.js",
+    "static/js/703.353598dd.chunk.js": "./static/js/703.353598dd.chunk.js",
+    "static/js/379.1b21c77d.chunk.js": "./static/js/379.1b21c77d.chunk.js",
+    "app-theme-dark0.css": "./static/css/app-theme-dark0.b1b74379.chunk.css",
+    "app-theme-dark0.js": "./static/js/app-theme-dark0.b9ebf096.chunk.js",
+    "app-theme-dark1.css": "./static/css/app-theme-dark1.9555faa3.chunk.css",
+    "app-theme-dark1.js": "./static/js/app-theme-dark1.110562b0.chunk.js",
+    "app-theme-light0.css": "./static/css/app-theme-light0.9040fa9e.chunk.css",
+    "app-theme-light0.js": "./static/js/app-theme-light0.9a2efd19.chunk.js",
+    "app-theme-light1.css": "./static/css/app-theme-light1.eaa41978.chunk.css",
+    "app-theme-light1.js": "./static/js/app-theme-light1.4559c3bb.chunk.js",
+    "static/media/dxiconsfluent.woff": "./static/media/dxiconsfluent.9e401b6caad7947e61b6.woff",
+    "static/media/dxiconsfluent.ttf": "./static/media/dxiconsfluent.486a851c39bc9e860d1b.ttf",
+    "static/media/dxiconsfluent.woff2": "./static/media/dxiconsfluent.873dde0005828e4e0def.woff2",
+    "index.html": "./index.html",
+    "main.7b835a70.css.map": "./static/css/main.7b835a70.css.map",
+    "main.91ef8ff1.js.map": "./static/js/main.91ef8ff1.js.map",
+    "498.533026cc.chunk.js.map": "./static/js/498.533026cc.chunk.js.map",
+    "703.353598dd.chunk.js.map": "./static/js/703.353598dd.chunk.js.map",
+    "379.1b21c77d.chunk.js.map": "./static/js/379.1b21c77d.chunk.js.map",
+    "app-theme-dark0.b1b74379.chunk.css.map": "./static/css/app-theme-dark0.b1b74379.chunk.css.map",
+    "app-theme-dark0.b9ebf096.chunk.js.map": "./static/js/app-theme-dark0.b9ebf096.chunk.js.map",
+    "app-theme-dark1.9555faa3.chunk.css.map": "./static/css/app-theme-dark1.9555faa3.chunk.css.map",
+    "app-theme-dark1.110562b0.chunk.js.map": "./static/js/app-theme-dark1.110562b0.chunk.js.map",
+    "app-theme-light0.9040fa9e.chunk.css.map": "./static/css/app-theme-light0.9040fa9e.chunk.css.map",
+    "app-theme-light0.9a2efd19.chunk.js.map": "./static/js/app-theme-light0.9a2efd19.chunk.js.map",
+    "app-theme-light1.eaa41978.chunk.css.map": "./static/css/app-theme-light1.eaa41978.chunk.css.map",
+    "app-theme-light1.4559c3bb.chunk.js.map": "./static/js/app-theme-light1.4559c3bb.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7b835a70.css",
+    "static/js/main.91ef8ff1.js"
+  ]
+}
