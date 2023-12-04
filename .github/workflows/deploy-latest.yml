@@ -137,16 +137,28 @@ jobs:
         run: npm i npm@7 -g
 
       - name: For dev branch - download devextreme Artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: devextreme-npm
           path: devextreme-npm-latest
 
       - name: For dev branch - download devextreme-angular Artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: devextreme-angular-npm
           path: devextreme-angular-npm-latest
+
+      - name: For dev branch - download devextreme-react Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: devextreme-react-npm
+          path: devextreme-react-npm-latest
+
+      - name: For dev branch - download devextreme-vue Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: devextreme-vue-npm
+          path: devextreme-vue-npm-latest
 
       - name: For dev branch - replace dx versions to latest builds in package.json
         run: |
@@ -156,6 +168,8 @@ jobs:
           sed -i "s|\"devextreme\": \"[0-9.]\+\"|\"devextreme\": \"\.\.\/\.\.\/$FILE_DX_PATH\"|g" ./packages/angular/package.json
           sed -i "s/\"devextreme-dist\": \"[0-9.]\+\"/\"devextreme-dist\": \"\.\.\/\.\.\/$FILE_DX_DIST_PATH\"/g" ./packages/angular/package.json
           sed -i "s|\"devextreme-angular\": \"[0-9.]\+\"|\"devextreme-angular\": \"\.\.\/\.\.\/$FILE_FRAMEWORK_PATH\"|g" ./packages/angular/package.json
+          sed -i "s|\"devextreme-react\": \"[0-9.]\+\"|\"devextreme-react\": \"\.\.\/\.\.\/$FILE_FRAMEWORK_PATH\"|g" ./packages/react/package.json
+          sed -i "s|\"devextreme-vue\": \"[0-9.]\+\"|\"devextreme-vue\": \"\.\.\/\.\.\/$FILE_FRAMEWORK_PATH\"|g" ./packages/vue/package.json
 
       - name: Restore npm cache
         uses: actions/cache@v3
