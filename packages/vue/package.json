@@ -12,8 +12,8 @@
   "dependencies": {
     "core-js": "^3.8.3",
     "devexpress-gantt": "^4.1.33",
-    "devextreme": "https://gooddayforsurf.github.io/dev-npm/devextreme.tgz",
-    "devextreme-dist": "https://gooddayforsurf.github.io/dev-npm/devextreme-dist.tgz",
+    "devextreme": "https://gooddayforsurf.github.io/dev-npm/devextreme-231204.tgz",
+    "devextreme-dist": "https://gooddayforsurf.github.io/dev-npm/devextreme-dist-231204.tgz",
     "devextreme-vue": "23.2.2-beta",
     "dx-template-gallery-data": "^1.0.0",
     "exceljs": "^3.10.0",
