@@ -169,6 +169,9 @@ jobs:
           sed -i "s/\"devextreme-dist\": \"[0-9.]\+\"/\"devextreme-dist\": \"\.\.\/\.\.\/$FILE_DX_DIST_PATH\"/g" ./packages/angular/package.json
           sed -i "s|\"devextreme-angular\": \"[0-9.]\+\"|\"devextreme-angular\": \"\.\.\/\.\.\/FILE_ANGULAR_PATH\"|g" ./packages/angular/package.json
 
+      - name: Print updated package.json
+        run: cat ./packages/angular/package.json
+
       - name: Restore npm cache
         uses: actions/cache@v3
         with:
