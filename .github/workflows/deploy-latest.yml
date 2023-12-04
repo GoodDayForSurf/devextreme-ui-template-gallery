@@ -113,7 +113,7 @@ jobs:
           themes_json="${themes_json//$' '/''}"
           echo "matrix=$themes_json" >> $GITHUB_OUTPUT
   build:
-    needs: set-matrix
+    needs: [set-matrix, build-latest-dx-npm]
     name: Build applications
     runs-on: ubuntu-latest
     env:
@@ -121,7 +121,7 @@ jobs:
     strategy:
       matrix:
         theme: ${{fromJson(needs.set-matrix.outputs.matrix)}}
-        mode: [ default, embedded ]
+        mode: [ default ]
 
     steps:
       - name: Get sources
