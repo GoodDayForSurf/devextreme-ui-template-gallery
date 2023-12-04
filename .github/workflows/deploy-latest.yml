@@ -5,7 +5,6 @@ on:
 
 jobs:
   build-latest-dx-npm:
-    if: ${{ github.base_ref == 'dev' }}
     runs-on: ubuntu-latest
     steps:
       #Build Devextreme latest
@@ -136,14 +135,12 @@ jobs:
         run: npm i npm@7 -g
 
       - name: For dev branch - download devextreme Artifact
-        if: ${{ github.base_ref == 'dev' }}
         uses: actions/download-artifact@v2
         with:
           name: devextreme-npm
           path: devextreme-npm-latest
 
       - name: For dev branch - download devextreme Artifact
-        if: ${{ github.base_ref == 'dev' }}
         uses: actions/download-artifact@v2
         with:
           name: devextreme-npm
