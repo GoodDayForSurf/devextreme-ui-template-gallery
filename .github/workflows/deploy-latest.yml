@@ -168,7 +168,7 @@ jobs:
             FILE_PROJECT_PATH="$(find devextreme-$PROJECT-npm-latest -maxdepth 1 -name "devextreme-$PROJECT*.tgz" | sed 's|/|\\/|g')"
             FILE_DX_PATH="$(find devextreme-npm-latest/devextreme/ -maxdepth 1 -name "devextreme-*.tgz" | sed 's|/|\\/|g')"
             FILE_DX_DIST_PATH="$(find devextreme-npm-latest/devextreme-dist/ -maxdepth 1 -name "devextreme-dist*.tgz" | sed 's|/|\\/|g')"
-            sed -i "s|\"devextreme\": \"VERSION_REG_EXP\"|\"devextreme\": \"\.\.\/\.\.\/$FILE_DX_PATH\"|g" ./packages/$PROJECT/package.json
+            sed -i "s|\"devextreme\": \"$VERSION_REG_EXP\"|\"devextreme\": \"\.\.\/\.\.\/$FILE_DX_PATH\"|g" ./packages/$PROJECT/package.json
             sed -i "s/\"devextreme-dist\": \"[0-9.\\-a-z]\+\"/\"devextreme-dist\": \"\.\.\/\.\.\/$FILE_DX_DIST_PATH\"/g" ./packages/$PROJECT/package.json
             sed -i "s|\"devextreme-angular\": \"[0-9.\\-a-z]\+\"|\"devextreme-angular\": \"\.\.\/\.\.\/$FILE_PROJECT_PATH\"|g" ./packages/$PROJECT/package.json
           done
