@@ -83,6 +83,7 @@ jobs:
           path: |
             devextreme/packages/devextreme/artifacts/npm/devextreme/devextreme-*.tgz
             devextreme/packages/devextreme/artifacts/npm/devextreme-dist/devextreme-dist*.tgz
+
       - name: DevExtreme-angular - Build
         working-directory: devextreme/packages/devextreme-angular
         run: npm run build
