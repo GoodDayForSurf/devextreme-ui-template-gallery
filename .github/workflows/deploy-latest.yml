@@ -165,9 +165,9 @@ jobs:
           FILE_ANGULAR_PATH="$(find devextreme-angular-npm-latest -maxdepth 1 -name "devextreme-angular*.tgz" | sed 's|/|\\/|g')"
           FILE_DX_PATH="$(find devextreme-npm-latest/devextreme/ -maxdepth 1 -name "devextreme-*.tgz" | sed 's|/|\\/|g')"
           FILE_DX_DIST_PATH="$(find devextreme-npm-latest/devextreme-dist/ -maxdepth 1 -name "devextreme-dist*.tgz" | sed 's|/|\\/|g')"
-          sed -i "s|\"devextreme\": \"[0-9.\\-a-z]\+\"|\"devextreme\": \"\.\.\/\.\.\/$FILE_DX_PATH\"|g" ./packages/angular/package.json
-          sed -i "s/\"devextreme-dist\": \"[0-9.\\-a-z]\+\"/\"devextreme-dist\": \"\.\.\/\.\.\/$FILE_DX_DIST_PATH\"/g" ./packages/angular/package.json
-          sed -i "s|\"devextreme-angular\": \"[0-9.\\-a-z]\+\"|\"devextreme-angular\": \"\.\.\/\.\.\/$FILE_ANGULAR_PATH\"|g" ./packages/angular/package.json
+          sed -i "s|\"devextreme\": \"[0-9.a-z\-]\+\"|\"devextreme\": \"\.\.\/\.\.\/$FILE_DX_PATH\"|g" ./packages/angular/package.json
+          sed -i "s/\"devextreme-dist\": \"[0-9.a-z\-]\+\"/\"devextreme-dist\": \"\.\.\/\.\.\/$FILE_DX_DIST_PATH\"/g" ./packages/angular/package.json
+          sed -i "s|\"devextreme-angular\": \"[0-9.a-z\-]\+\"|\"devextreme-angular\": \"\.\.\/\.\.\/$FILE_ANGULAR_PATH\"|g" ./packages/angular/package.json
 
       - name: Print FILE_ANGULAR_PATH
         run: echo $FILE_ANGULAR_PATH
