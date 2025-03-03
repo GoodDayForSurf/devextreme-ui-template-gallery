@@ -3,7 +3,9 @@
 /* eslint-disable no-undef */
 import { Selector } from 'testcafe';
 import { createScreenshotsComparer } from 'devextreme-screenshot-comparer';
-import { getPostfix, toggleCommonConfiguration, setTheme } from './utils';
+import {
+  getPostfix, toggleCommonConfiguration, setTheme, forceResizeRecalculation,
+} from './utils';
 import { screenModes, themeModes, timeoutSecond } from '../config.js';
 
 const project = process.env.project;
@@ -39,6 +41,7 @@ const setEmbedded = async (t, embed, screenMode) => {
         await setTheme(t, themeMode);
 
         await t.resizeWindow(...[1285, 810]);
+        await t.resizeWindow(...screenMode.map((dimension) => dimension + 1));
         await t.resizeWindow(...screenMode);
         await t.click(Selector('.dx-drawer-content'));
         await t.expect(Selector('.content .dx-toolbar-label').withText('Sammy Hill').exists).ok();
@@ -56,7 +59,6 @@ const setEmbedded = async (t, embed, screenMode) => {
         await toggleCommonConfiguration(t, BASE_URL, embedded, setEmbedded, screenMode, timeoutSecond);
         await setTheme(t, themeMode);
 
-        // const form = Selector('.plain-styled-form');
         const form = Selector('.left');
 
         await takeScreenshot(`crm-form-readonly${postfix}`, form);
@@ -76,19 +78,40 @@ const setEmbedded = async (t, embed, screenMode) => {
         // eslint-disable-next-line max-len
         await toggleCommonConfiguration(t, BASE_URL, embedded, setEmbedded, screenMode, timeoutSecond);
         await setTheme(t, themeMode);
+        await forceResizeRecalculation(t, screenMode);
+        await t.wait(1000);
 
         const tabs = Selector('.content .dx-tabpanel-tabs .dx-tab-text');
 
         for (let i = 0; i < nameTabs.length; i += 1) {
           await t.click(tabs.withText(new RegExp(nameTabs[i], 'i')));
           const tabPanel = Selector('.content .dx-tabpanel[role=tabpanel]');
-
+          await t.wait(1000);
           await takeScreenshot(`crm-form-tab-${nameTabs[i].toLowerCase()}${postfix}`, tabPanel);
         }
 
         await t
           .expect(compareResults.isValid())
           .ok(compareResults.errorMessages());
+      });
+
+      test(`Crm contact details does not duplicate rows when dragging (${project}, embed=${embedded}, ${screenMode[0]}, ${themeMode})`, async (t) => {
+        if (screenMode[0] === 400) return;
+        const nameTabs = ['Tasks', 'Activities', 'Opportunities', 'Notes', 'Messages'];
+
+        // eslint-disable-next-line max-len
+        await toggleCommonConfiguration(t, BASE_URL, embedded, setEmbedded, screenMode, timeoutSecond);
+        await setTheme(t, themeMode);
+        await forceResizeRecalculation(t, screenMode);
+        await t.wait(1000);
+
+        const tabs = Selector('.content .dx-tabpanel-tabs .dx-tab-text');
+
+        await t.click(tabs.withText(new RegExp(nameTabs[0], 'i')));
+        const dragIcons = Selector('span.dx-datagrid-drag-icon');
+        const itemCount = await dragIcons.count;
+        await t.dragToElement(dragIcons.nth(3), dragIcons.nth(1));
+        await t.expect(Selector('span.dx-datagrid-drag-icon').count).eql(itemCount);
       });
     });
   });

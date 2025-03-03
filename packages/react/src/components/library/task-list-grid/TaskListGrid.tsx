@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import DataGrid, {
+import {
+  DataGrid, DataGridRef,
   Column, Selection, Sorting, HeaderFilter, DataGridTypes,
   RequiredRule, Paging, Pager, Editing, Scrolling, LoadPanel,
 } from 'devextreme-react/data-grid';
@@ -46,7 +47,7 @@ const editPriorityRender = ({ setValue, value }: GridEdit) => (
   />
 );
 
-export const TaskListGrid = React.forwardRef<DataGrid, PlanningProps>(({ dataSource }, ref) => {
+export const TaskListGrid = React.forwardRef<DataGridRef, PlanningProps>(({ dataSource }, ref) => {
   const [data, setData] = useState<Task[]>();
 
   const navigate = useNavigate();
@@ -54,12 +55,6 @@ export const TaskListGrid = React.forwardRef<DataGrid, PlanningProps>(({ dataSou
   useEffect(() => {
     setData(dataSource.filter((d) => d.status && d.priority));
   }, [dataSource]);
-
-  const onRowPrepared = useCallback(({ rowType, rowElement, data }) => {
-    if (rowType !== 'header' && data.status === 'Completed') {
-      rowElement.classList.add('completed');
-    }
-  }, []);
 
   const navigateToDetails = useCallback(({ rowType }: DataGridTypes.RowClickEvent) => {
     if (useNavigation && rowType !== 'detailAdaptive') {
@@ -73,16 +68,16 @@ export const TaskListGrid = React.forwardRef<DataGrid, PlanningProps>(({ dataSou
 
   return (
     <DataGrid
-      className='planning-grid'
+      className='planning-grid theme-dependent'
       ref={ref}
       dataSource={data}
       columnAutoWidth
       hoverStateEnabled
+      showBorders
       height='100%'
       onEditingStart={toogleUseNavigation}
       onEditCanceled={toogleUseNavigation}
       onSaved={toogleUseNavigation}
-      onRowPrepared={onRowPrepared}
       onRowClick={navigateToDetails}>
       <LoadPanel enabled={false} />
       <Scrolling mode='virtual' />

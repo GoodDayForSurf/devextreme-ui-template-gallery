@@ -14,7 +14,7 @@
         class="list"
         v-for="board in kanbanDataSource"
       >
-        <div class="list-title dx-theme-text-color">
+        <div class="list-title theme-text-color">
           <span>{{ board.name }}</span>
           <card-menu :items="boardMenuItems" />
         </div>
@@ -145,7 +145,7 @@ const addTask = () => {
     font-size: 16px;
     padding: 10px;
     margin-bottom: -10px;
-    font-weight: bold;
+    font-weight: 500;
     cursor: pointer;
     display: flex;
     justify-content: space-between;

@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="{'left-side-panel': true, 'overlapping': isSmallScreen, open: isOpened}"
+    :class="{ 'left-side-panel': true, overlapping: isSmallScreen, open: isOpened }"
   >
     <div class="side-panel-container">
       <div
@@ -64,7 +64,6 @@ watchEffect(() => {
     width: 0;
     transition: width var(--transition);
     overflow: hidden;
-    white-space: nowrap;
 
     .dx-scrollview {
       min-width: var(--left-side-panel-width);

@@ -28,10 +28,10 @@
         widget="dxTextBox"
         css-class="global-search-box"
         :options="{
-          stylingMode: 'underlined',
+          stylingMode: 'filled',
           mode: 'search',
           placeholder: 'Search',
-          width: 180
+          width: 180,
         }"
       />
       <dx-item
@@ -79,28 +79,27 @@
 </template>
 
 <script setup lang="ts">
-import { DxButton } from 'devextreme-vue/button';
-import { DxToolbar, DxItem } from 'devextreme-vue/toolbar';
 import { useRouter, useRoute } from 'vue-router';
 import { ref } from 'vue';
-
-import { authInfo as auth, AuthUser } from '../../auth';
+import { DxButton, DxButtonTypes } from 'devextreme-vue/button';
+import { DxToolbar, DxItem } from 'devextreme-vue/toolbar';
+import { authInfo as auth, UserInfo, AuthUser } from '../../auth';
 import ThemeSwitcher from './theme-switcher.vue';
 import UserPanel from './user-panel.vue';
 
 const router = useRouter();
 const route = useRoute();
 
-const user = ref<Record<string, unknown> | unknown>({});
+const user = ref<UserInfo>();
 
 defineProps<{
   menuToggleEnabled: boolean,
     title: string,
-    toggleMenuFunc:(e: unknown) => void,
+    toggleMenuFunc:(e: DxButtonTypes.ClickEvent) => void,
 }>();
 
-auth.getUser().then((e: AuthUser) => {
-  user.value = e.data;
+auth.getUser().then(({ data }: AuthUser) => {
+  user.value = data as UserInfo;
 });
 
 function onLogoutClick() {
@@ -128,10 +127,6 @@ header {
   padding: var(--header-toolbar-vertical-padding) 0;
   background-color: var(--base-bg);
 
-  :deep(.header-title) {
-    color: var(--accent-color);
-  }
-
   .header-toolbar {
     padding-right: var(--content-padding);
 
@@ -143,14 +138,16 @@ header {
       position: relative;
 
       .dx-badge {
-        display: block;
         position: absolute;
         background-color: red;
         color: white;
         right: -10%;
         top: -10%;
         font-size: 12px;
-        padding: 0 4px;
+        display: flex;
+        align-items: center;
+        border-radius: 10px;
+        justify-content: center;
       }
     }
 
@@ -158,10 +155,6 @@ header {
       width: var(--side-panel-min-width);
       text-align: center;
       padding: 0;
-
-      .dx-icon {
-        color: var(--accent-color);
-      }
     }
   }
 }

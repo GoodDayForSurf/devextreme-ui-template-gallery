@@ -2,7 +2,7 @@ import './FormPopup.scss';
 import React, { useCallback, useRef, PropsWithChildren } from 'react';
 
 import { Popup, ToolbarItem } from 'devextreme-react/popup';
-import ValidationGroup from 'devextreme-react/validation-group';
+import { ValidationGroup, ValidationGroupRef } from 'devextreme-react/validation-group';
 import { useScreenSize } from '../../../utils/media-query';
 import { Button } from 'devextreme-react';
 
@@ -10,6 +10,7 @@ type PopupProps = {
   title: string,
   visible: boolean,
   width?: number,
+  height?: number | string,
   wrapperAttr?: { class: string },
   isSaveDisabled?: boolean,
   setVisible: (visible: boolean) => void,
@@ -20,6 +21,7 @@ export const FormPopup = ({
   title,
   visible,
   width = 480,
+  height = 'auto',
   onSave,
   setVisible,
   wrapperAttr = { class: '' },
@@ -27,10 +29,10 @@ export const FormPopup = ({
   children
 }: PropsWithChildren<PopupProps>) => {
   const { isXSmall } = useScreenSize();
-  const validationGroup = useRef<ValidationGroup>(null);
+  const validationGroup = useRef<ValidationGroupRef>(null);
 
   const close = () => {
-    validationGroup.current?.instance.reset();
+    validationGroup.current?.instance().reset();
     setVisible(false);
   };
 
@@ -39,7 +41,7 @@ export const FormPopup = ({
   }, [close, validationGroup]);
 
   const onSaveClick = useCallback(() => {
-    if (!validationGroup.current?.instance.validate().isValid) return;
+    if (!validationGroup.current?.instance().validate().isValid) return;
 
     onSave && onSave();
     close();
@@ -52,7 +54,8 @@ export const FormPopup = ({
       fullScreen={isXSmall}
       width={width}
       wrapperAttr={{ ...wrapperAttr, class: `${wrapperAttr?.class} form-popup` }}
-      height='auto'
+      height={height}
+      onVisibleChange={setVisible}
     >
       <ToolbarItem
         toolbar='bottom'
@@ -61,7 +64,8 @@ export const FormPopup = ({
         <div className={`form-popup-buttons-container ${width <= 360 ? 'flex-buttons' : ''}`}>
           <Button
             text='Cancel'
-            stylingMode='contained'
+            stylingMode='outlined'
+            type='normal'
             onClick={onCancelClick}
           />
           <Button

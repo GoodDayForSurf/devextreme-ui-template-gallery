@@ -4,24 +4,24 @@ import { Template } from 'devextreme-react/core/template';
 import { UserMenuSection } from '../user-menu-section/UserMenuSection';
 import type { UserPanelProps } from '../../../types';
 import { useAuth } from '../../../contexts/auth';
-import List from 'devextreme-react/list';
+import { ListRef } from 'devextreme-react/list';
 import './UserPanel.scss';
 
 export const UserPanel = ({ menuMode }: UserPanelProps) => {
   const { user } = useAuth();
-  const listRef = useRef<List>(null);
+  const listRef = useRef<ListRef>(null);
 
   const dropDownButtonAttributes = {
     class: 'user-button'
   };
 
   const buttonDropDownOptions = {
-    width: '150'
+    width: 'auto'
   };
 
   const dropDownButtonContentReady = useCallback(({ component }) => {
     component.registerKeyHandler('downArrow', () => {
-      listRef.current?.instance.focus();
+      listRef.current?.instance().focus();
     });
   }, [listRef]);
 

@@ -1,4 +1,5 @@
 import { currentTheme as currentVizTheme, refreshTheme } from 'devextreme/viz/themes';
+import { current } from 'devextreme/ui/themes'
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -35,12 +36,17 @@ export class ThemeService {
     this.currentTheme = theme;
     this.isDark.next(this.currentTheme === 'dark');
 
-    currentVizTheme(currentVizTheme().replace(/\.[a-z]+\.compact$/, `.${theme}.compact`));
+    const regexTheme = new RegExp(`\\.(${themes.join('|')})`, 'g');
+    currentVizTheme(currentVizTheme().replace(regexTheme, `.${theme}`));
     refreshTheme();
   }
 
   getCurrentTheme() {
     return this.currentTheme;
+  }
+
+  isFluent(): boolean {
+    return current().includes('fluent');
   }
 
   switchTheme() {

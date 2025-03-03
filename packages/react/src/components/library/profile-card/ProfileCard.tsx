@@ -1,6 +1,6 @@
 import './ProfileCard.scss';
 import React, { useRef } from 'react';
-import Form, { Item, Label, ValidationRule as ValidationRuleComponent, FormTypes } from 'devextreme-react/form';
+import { Form, FormRef, Item, Label, ValidationRule as ValidationRuleComponent, FormTypes } from 'devextreme-react/form';
 import { StatusSelectBox } from '../status-select-box/StatusSelectBox';
 import { PicturedItemSelectBox } from '../pictured-item-select-box/PicturedItemSelectBox';
 import { useScreenSize, getSizeQualifier } from '../../../utils/media-query';
@@ -35,9 +35,9 @@ export const ProfileCard = ({
   wrapperCssClass,
 }: React.PropsWithChildren<ProfileCardProps>) => {
   const { isXSmall } = useScreenSize();
-  const formRef = useRef<Form>(null);
+  const formRef = useRef<FormRef>(null);
   const onFieldChange = (fieldName) => (value) => {
-    const isValid = formRef.current?.instance.validate().isValid;
+    const isValid = formRef.current?.instance().validate().isValid;
 
     if (!isValid) {
       return;
@@ -74,7 +74,8 @@ export const ProfileCard = ({
                 dataField={item.dataField}
                 editorType={item.editorType}
                 editorOptions={{
-                  stylingMode: 'outlined',
+                  stylingMode: 'filled',
+                  valueChangeEvent: 'input',
                   ...item.editorOptions
                 }}
                 colSpan={item.colSpan}>
@@ -88,6 +89,7 @@ export const ProfileCard = ({
                 {item.dataField === 'status' &&
                   <StatusSelectBox
                     labelMode='hidden'
+                    stylingMode='filled'
                     value={cardData[item.dataField]}
                     onValueChange={onFieldChange(item.dataField)}
                   />

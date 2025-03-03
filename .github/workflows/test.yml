@@ -2,7 +2,11 @@ name: Test
 
 on:
   push:
+    branches-ignore:
+      - dev
   pull_request:
+    branches-ignore:
+      - dev
 
 jobs:
   test-meta:
@@ -11,15 +15,15 @@ jobs:
 
     steps:
     - name: Get sources
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Use Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: '16'
+        node-version: '20'
 
     - name: Restore npm cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.npm
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -76,22 +80,19 @@ jobs:
           { project: 'vue', page: 'user-profile' },
         ]
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
 
     steps:
     - name: Get sources
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Use Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: '16'
-
-    - name: Set NPM version
-      run: npm i npm@7 -g
+        node-version: '20'
 
     - name: Restore npm cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.npm
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -100,6 +101,11 @@ jobs:
 
     - name: Run npm install
       run: npm install --no-audit --no-fund
+
+    - name: Install Internal Packages
+      uses: DevExpress/github-actions/install-internal-package@main
+      with:
+        install-dist: true
 
     - name: Set theme
       run: npm run set-theme -- ${{ matrix.theme.fullName }}
@@ -116,17 +122,30 @@ jobs:
       run: |
         all_args="--project ${{ matrix.ARGS.project }} --page ${{ matrix.ARGS.page }} --quarantineMode true  --theme ${{ matrix.theme.name }}"
         echo "$all_args"
-        export TESTCAFE_DASHBOARD_LAYOUT_TESTING_ENABLED=true
-        export TESTCAFE_DASHBOARD_DEVEXTREME_TOKEN=eyJwcm9qZWN0SWQiOiI5ZjRlMTJjMC1kNmExLTQxZDEtYmE1OS0wZTI3OTE1N2QxZDAiLCJ0b2tlblNlY3JldCI6InQwQXh6bzFMczBDVE81VU95bzc2dkF2eE05Ym9pQ3JxajRCQUtyWm5la0EzYlp3SENOR3RoamFaWkhoa0xvRnJZM1lvV0ZlbEt2S2JyYjFkbEs5UFVoMmlGaG9aVlprdTU1NXhZWmhGQkQ0eWtBZENJWkJvdU9ZV1hDWlRkVi9sQUFxMVNlMkFtRkg5UkRXTTlTcEk0WmVOSkEwZnYwNUlDN3Q3UXFmZ3o2VUdYVDNvZDJHQ2RqclVKYnZrZ2ZmNjdRb3RNaXZuTG1CSmM4REdLelhhbmhobzMzVzE5U1Axd1NSNGR6d3ZWdHp2dGV2em5Da0cwR0dSc3Z3OWdQS214UHpFUGsreTJtMjlSZm92dGtuNGZtb0prRng1RzBSZ2o2WnhPSXBrUDZOMVZyWWhuTk9lc1VEQmVobzB1VGFjTlNwZFE0N2FVZCsydmM3Q3Y0QmtZQT09In0=
-        export TESTCAFE_DASHBOARD_DEVEXTREME_URL=https://devextreme.resolve.sh
-        export TESTCAFE_DASHBOARD_BUILD_ID=${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}
         npm run test-testcafe -- $all_args
       working-directory: packages/testing
 
     - name: Copy screenshots artifacts
       if: ${{ failure() }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: screenshots-${{ matrix.ARGS.project }}
+        name: screenshots-${{ matrix.ARGS.project }}-${{ matrix.ARGS.page }}-${{ matrix.theme.fullName }}
         path: ${{ github.workspace }}/packages/testing/testing/artifacts/compared-screenshots/*
         if-no-files-found: ignore
+
+  merge-artifacts:
+    runs-on: ubuntu-latest
+    needs: testcafe
+    if: ${{ failure() }}
+    strategy:
+      matrix:
+        project: [ 'angular', 'react', 'vue' ]
+
+    steps:
+      - name: Merge screenshot artifacts
+        uses: actions/upload-artifact/merge@v4
+        continue-on-error: true
+        with:
+          name: screenshots-${{ matrix.project }}
+          pattern: screenshots-${{ matrix.project }}-*
+          delete-merged: true

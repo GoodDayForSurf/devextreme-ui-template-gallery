@@ -1,4 +1,5 @@
 import { currentTheme as currentVizTheme, refreshTheme } from 'devextreme/viz/themes';
+import { current as getCurrentDXTheme } from 'devextreme/ui/themes';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 const themes = ['light', 'dark'] as const;
@@ -33,8 +34,7 @@ function isThemeStyleSheet(styleSheet, theme: Theme) {
     return styleSheet?.href?.includes(`${themeMarker}`);
   } else {
     const rules = Array.from<CSSStyleRule>(styleSheet.cssRules);
-    return !![rules[0], rules.at(-1)].find(
-      (rule) => rule?.selectorText?.includes(`.${themeMarker}`));
+    return !!rules.find((rule) => rule?.selectorText?.includes(`.${themeMarker}`));
   }
 }
 
@@ -51,11 +51,12 @@ async function setAppTheme(newTheme?: Theme) {
 
   switchThemeStyleSheets(themeName);
 
-  currentVizTheme(currentVizTheme().replace(/\.[a-z]+\.compact$/, `.${themeName}.compact`));
+  const regexTheme = new RegExp(`\\.(${themes.join('|')})`, 'g');
+  currentVizTheme(currentVizTheme().replace(regexTheme, `.${themeName}`));
   refreshTheme();
 }
 
-function toggleTeme(currentTheme: Theme): Theme {
+function toggleTheme(currentTheme: Theme): Theme {
   const newTheme = getNextTheme(currentTheme);
   window.localStorage[storageKey] = newTheme;
   return newTheme;
@@ -71,13 +72,17 @@ export function useThemeContext() {
     });
   }, []);
 
-  const switchTheme = useCallback(() => setTheme((currentTheme: Theme) => toggleTeme(currentTheme)), []);
+  const switchTheme = useCallback(() => setTheme((currentTheme: Theme) => toggleTheme(currentTheme)), []);
+
+  const isFluent = useCallback((): boolean => {
+    return getCurrentDXTheme().includes('fluent');
+  }, []);
 
   useEffect(() => {
     isLoaded && setAppTheme(theme);
   }, [theme, isLoaded]);
 
-  return useMemo(()=> ({ theme, switchTheme, isLoaded }), [theme, isLoaded]);
+  return useMemo(()=> ({ theme, switchTheme, isLoaded, isFluent }), [theme, isLoaded, isFluent]);
 }
 
 export const ThemeContext = React.createContext<ReturnType<typeof useThemeContext> | null>(null);
